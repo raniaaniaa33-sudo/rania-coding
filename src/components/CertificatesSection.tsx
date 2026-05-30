@@ -81,9 +81,9 @@ export default function CertificatesSection() {
           </span>
 
           <h2 className="mt-4 text-4xl md:text-6xl font-bold leading-tight text-gray-900 dark:text-white">
-            hal yang pernah aku{' '}
+            My {' '}
             <span className="text-pink-400">
-              pelajari 🌸
+              Certificates 🌸
             </span>
           </h2>
 

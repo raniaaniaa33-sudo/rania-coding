@@ -1,262 +1,204 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Send, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
-import { z } from 'zod';
-import { supabase } from '@/integrations/supabase/client';
-
-const contactSchema = z.object({
-  name: z.string().trim().min(1, 'Nama harus diisi').max(100, 'Nama terlalu panjang'),
-  email: z.string().trim().email('Email tidak valid').max(255, 'Email terlalu panjang'),
-  subject: z.string().trim().min(1, 'Subjek harus diisi').max(200, 'Subjek terlalu panjang'),
-  message: z.string().trim().min(1, 'Pesan harus diisi').max(2000, 'Pesan terlalu panjang'),
-});
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Mail, MapPin, Phone, Send, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const contactInfo = [
   {
     icon: Mail,
-    label: 'Email',
-    value: 'hello@developer.com',
-    href: 'mailto:hello@developer.com',
+    label: "email aku",
+    value: "raniaaniaa33@gmail.com",
+    href: "mailto:raniaaniaa33@gmail.com",
   },
   {
     icon: Phone,
-    label: 'Telepon',
-    value: '+62 812 3456 7890',
-    href: 'tel:+6281234567890',
+    label: "nomor aku",
+    value: "+62 813-3005-6820",
+    href: "tel:+62 813-3005-6820",
   },
   {
     icon: MapPin,
-    label: 'Lokasi',
-    value: 'Jakarta, Indonesia',
-    href: '#',
+    label: "aku tinggal di",
+    value: "Banda Aceh, Indonesia",
+    href: "https://maps.app.goo.gl/fE8QqoKS2t1tzvdR8",
   },
 ];
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setErrors({});
-
-    const result = contactSchema.safeParse(formData);
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-      result.error.errors.forEach((err) => {
-        if (err.path[0]) {
-          fieldErrors[err.path[0] as string] = err.message;
-        }
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setIsSubmitting(true);
+    setLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+      await supabase.functions.invoke("send-contact-email", {
         body: formData,
       });
 
-      if (error) throw error;
-
       toast({
-        title: 'Pesan Terkirim! ✨',
-        description: 'Terima kasih telah menghubungi saya. Saya akan membalas secepatnya.',
+        title: "pesan terkirim 💌",
+        description: "aku bakal balas kalau sudah lihat ya ✨",
       });
 
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error: any) {
-      console.error('Error sending email:', error);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch {
       toast({
-        title: 'Gagal Mengirim',
-        description: 'Terjadi kesalahan. Silakan coba lagi atau hubungi langsung via email.',
-        variant: 'destructive',
+        title: "gagal terkirim",
+        description: "coba lagi nanti ya 🌸",
+        variant: "destructive",
       });
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32">
-      <div className="container mx-auto px-4">
+    <section
+      id="contact"
+      className="relative py-32 bg-white dark:bg-[#0f0a0d] overflow-hidden"
+    >
+      {/* 🌸 SOFT PINK LAYER (SAMAIN ABOUT) */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute w-[600px] h-[600px] bg-pink-300/25 blur-[140px] top-[-120px] left-[-120px]" />
+        <div className="absolute w-[520px] h-[520px] bg-rose-300/20 blur-[140px] bottom-[-140px] right-[-140px]" />
+        <div className="absolute w-[420px] h-[420px] bg-fuchsia-300/15 blur-[120px] top-[55%] left-[60%] -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute inset-0 bg-white/70 dark:bg-black/50" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+
+        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20 max-w-2xl mx-auto"
         >
-          <span className="text-primary font-medium mb-2 block">Kontak</span>
-          <h2 className="font-display text-3xl md:text-5xl font-bold mb-4">
-            Hubungi Saya
+          <p className="text-pink-300 tracking-[0.3em] text-xs uppercase">
+            ✦ ngobrol dikit
+          </p>
+
+          <h2 className="text-5xl md:text-6xl font-bold mt-4 text-gray-900 dark:text-white">
+            You Can {' '}
+            <span className="text-pink-400">Call Me🌸</span>
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
+
+          <p className="text-pink-400/70 dark:text-pink-200/70 mt-4">
+            nggak harus formal kok, santai aja. aku juga masih belajar banyak hal ✨
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
-            <div>
-              <h3 className="font-display text-2xl font-bold mb-4">
-                Mari Berkolaborasi!
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Punya project menarik atau ingin berkolaborasi? Jangan ragu untuk 
-                menghubungi saya. Saya selalu terbuka untuk diskusi tentang project 
-                baru, ide kreatif, atau kesempatan untuk menjadi bagian dari visi Anda.
-              </p>
-            </div>
+        {/* GRID */}
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
 
-            <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <motion.a
-                  key={info.label}
-                  href={info.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-4 p-4 glass rounded-xl hover:shadow-card-hover transition-all group"
-                >
-                  <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    <info.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">{info.label}</p>
-                    <p className="font-medium">{info.value}</p>
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <form onSubmit={handleSubmit} className="space-y-6 p-6 glass rounded-2xl shadow-card">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium">
-                    Nama
-                  </label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Nama Anda"
-                    className={errors.name ? 'border-destructive' : ''}
-                  />
-                  {errors.name && (
-                    <p className="text-xs text-destructive">{errors.name}</p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium">
-                    Email
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="email@example.com"
-                    className={errors.email ? 'border-destructive' : ''}
-                  />
-                  {errors.email && (
-                    <p className="text-xs text-destructive">{errors.email}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium">
-                  Subjek
-                </label>
-                <Input
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Subjek pesan"
-                  className={errors.subject ? 'border-destructive' : ''}
-                />
-                {errors.subject && (
-                  <p className="text-xs text-destructive">{errors.subject}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">
-                  Pesan
-                </label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tuliskan pesan Anda..."
-                  rows={5}
-                  className={errors.message ? 'border-destructive' : ''}
-                />
-                {errors.message && (
-                  <p className="text-xs text-destructive">{errors.message}</p>
-                )}
-              </div>
-
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full rounded-full"
-                disabled={isSubmitting}
+          {/* LEFT */}
+          <div className="space-y-6">
+            {contactInfo.map((item, i) => (
+              <motion.a
+                key={i}
+                href={item.href}
+                target="_blank"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="
+                  flex items-center gap-5 p-6 rounded-3xl
+                  bg-white/70 dark:bg-black/40
+                  backdrop-blur-xl
+                  border border-pink-200/50 dark:border-pink-400/20
+                  hover:-translate-y-1 transition
+                "
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Mengirim...
-                  </>
-                ) : (
-                  <>
-                    <Send className="h-4 w-4 mr-2" />
-                    Kirim Pesan
-                  </>
-                )}
-              </Button>
-            </form>
-          </motion.div>
+                <div className="p-4 rounded-2xl bg-pink-200/40">
+                  <item.icon className="text-pink-400" />
+                </div>
+
+                <div>
+                  <p className="text-xs text-pink-300/70">{item.label}</p>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {item.value}
+                  </p>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+
+          {/* RIGHT FORM */}
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="
+              p-8 rounded-3xl
+              bg-white/70 dark:bg-black/40
+              backdrop-blur-2xl
+              border border-pink-200/50 dark:border-pink-400/20
+              space-y-5
+            "
+          >
+            <Input
+              placeholder="nama kamu"
+              className="border-b border-pink-200 rounded-none bg-transparent focus:border-pink-400"
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+            />
+
+            <Input
+              placeholder="email kamu"
+              className="border-b border-pink-200 rounded-none bg-transparent focus:border-pink-400"
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+
+            <Input
+              placeholder="mau bahas apa?"
+              className="border-b border-pink-200 rounded-none bg-transparent focus:border-pink-400"
+              onChange={(e) =>
+                setFormData({ ...formData, subject: e.target.value })
+              }
+            />
+
+            <Textarea
+              placeholder="tulis pesan kamu di sini..."
+              rows={6}
+              className="border-b border-pink-200 rounded-none bg-transparent focus:border-pink-400"
+              onChange={(e) =>
+                setFormData({ ...formData, message: e.target.value })
+              }
+            />
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="
+                w-full rounded-full
+                bg-pink-300 hover:bg-pink-400
+                text-white
+                shadow-[0_0_20px_rgba(244,114,182,0.25)]
+              "
+            >
+              {loading ? (
+                <Loader2 className="animate-spin mr-2" />
+              ) : (
+                <Send className="mr-2" />
+              )}
+              kirim pesan ✨
+            </Button>
+          </motion.form>
         </div>
       </div>
     </section>

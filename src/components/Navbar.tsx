@@ -56,19 +56,21 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
 
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (!entry.isIntersecting) return;
+          if (entry.isIntersecting) {
+            if (targetRef.current && targetRef.current !== item.href) return;
 
-          if (targetRef.current && targetRef.current !== item.href) return;
+            setActive(item.href);
+            updatePosition(index);
 
-          setActive(item.href);
-          updatePosition(index);
-
-          if (targetRef.current === item.href) {
-            targetRef.current = null;
+            if (targetRef.current === item.href) {
+              targetRef.current = null;
+            }
           }
         },
         {
-          rootMargin: '-40% 0px -40% 0px',
+          // 🔥 FIX UTAMA DI SINI
+          root: null,
+          threshold: 0.35, 
         }
       );
 
@@ -88,13 +90,16 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
     setActive(href);
     updatePosition(index);
 
-    el.scrollIntoView({ behavior: 'smooth' });
+    el.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   };
 
   return (
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-
-      {/* 🌸 SOFT GLOW */}
+      
+      {/* glow */}
       <div className="absolute inset-0 blur-3xl opacity-20 bg-pink-200/40 rounded-full pointer-events-none" />
 
       <div
@@ -104,7 +109,6 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
             : 'bg-white/70 border-pink-200/40'
         } shadow-[0_0_20px_rgba(244,114,182,0.2)]`}
       >
-
         {/* NAV */}
         <div className="relative flex items-center">
 
@@ -120,7 +124,7 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
             <div
               className={`w-full h-full rounded-full ${
                 isDark ? 'bg-pink-300/20' : 'bg-pink-100/70'
-              } shadow-[0_0_12px_rgba(244,114,182,0.25),inset_0_0_6px_rgba(255,255,255,0.2)]`}
+              }`}
             />
           </motion.div>
 
@@ -129,12 +133,12 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
               key={item.href}
               ref={(el) => (itemRefs.current[index] = el)}
               onClick={() => scrollToSection(item.href, index)}
-              className={`relative px-3 py-1.5 text-sm font-medium transition-all duration-300 ${
+              className={`relative px-3 py-1.5 text-sm font-medium transition ${
                 active === item.href
-                  ? 'text-pink-400 drop-shadow-[0_0_6px_rgba(244,114,182,0.5)]'
+                  ? 'text-pink-400'
                   : isDark
-                  ? 'text-white/60 hover:text-pink-200 hover:drop-shadow-[0_0_6px_rgba(244,114,182,0.4)]'
-                  : 'text-black/60 hover:text-pink-400 hover:drop-shadow-[0_0_6px_rgba(244,114,182,0.4)]'
+                  ? 'text-white/60 hover:text-pink-200'
+                  : 'text-black/60 hover:text-pink-400'
               }`}
             >
               {item.label}
@@ -156,17 +160,26 @@ export default function Navbar({ isDark, toggleTheme }: NavbarProps) {
         >
           <AnimatePresence mode="wait">
             {isDark ? (
-              <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+              <motion.div
+                key="sun"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+              >
                 <Sun className="w-4 h-4 text-pink-200" />
               </motion.div>
             ) : (
-              <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+              <motion.div
+                key="moon"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+              >
                 <Moon className="w-4 h-4 text-pink-400" />
               </motion.div>
             )}
           </AnimatePresence>
         </button>
-
       </div>
     </div>
   );
