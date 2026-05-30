@@ -10,39 +10,39 @@ export default function AboutSection() {
       title: 'siapa aku',
       icon: Heart,
       content:
-        'Aku Irdina Raqila 💗 seorang pelajar yang lagi belajar jadi versi lebih baik di masa yang akan datang.',
+        'Aku Rania Nur Fathina 💗 masih dalam proses jadi versi terbaik dari diriku sendiri. Nggak selalu sempurna, tapi aku terus belajar pelan-pelan.',
     },
     {
-      title: 'perjalanan belajar',
+      title: 'cara aku belajar',
       icon: Code2,
       content:
-        'Aku belajar dengan sungguh-sungguh 🧠 agar bisa menggapai impianku menjadi mahasiswa STAN.',
+        'Aku tipe yang belajar sambil jalan 🧠 kadang ngerti cepat, kadang harus ulang-ulang. Tapi justru dari situ aku jadi lebih paham dan kuat.',
     },
     {
-      title: 'sekolah',
+      title: 'sekolahku',
       icon: GraduationCap,
       content:
-        'Aku siswa MAN 1 Banda Aceh kelas X-11 📚 Lagi belajar banyak hal baru setiap hari.',
+        'Sekarang aku sekolah di MAN 1 Banda Aceh 📚 tempat aku tumbuh, belajar hal baru, dan pelan-pelan ngebangun masa depan.',
     },
     {
-      title: 'hal kecil tentang aku',
+      title: 'hal yang aku suka',
       icon: Music,
       content:
-        'Aku suka musik 🎧 karena bikin aku lebih tenang, fokus, dan nyaman saat belajar.',
+        'Aku suka berenang 🏊‍♀️ karena rasanya tenang banget. Kayak bisa lepas sebentar dari pikiran yang ribet.',
     },
     {
-      title: 'asal',
+      title: 'asal & cerita kecil',
       icon: MapPin,
       content:
-        'Aku lahir di Banda Aceh (19 Mei 2010) 🌸 tempat sederhana yang membentuk aku sampai sekarang.',
+        'Aku lahir di Banda Aceh, 14 Mei 2010 🌸 kota sederhana yang punya banyak kenangan buat aku sampai sekarang.',
     },
   ];
 
   const stats = [
     { value: '2010', label: 'lahir' },
-    { value: 'X-11', label: 'kelas' },
     { value: 'MAN 1', label: 'sekolah' },
-    { value: 'STAN', label: 'cita-cita' },
+    { value: 'berenang', label: 'hobi' },
+    { value: 'pelajar', label: 'status' },
   ];
 
   const toggle = (i: number) => {
@@ -69,13 +69,13 @@ export default function AboutSection() {
           {/* HEADER */}
           <motion.div className="text-center mb-14">
             <p className="text-pink-400 font-medium">
-              ✦ About Me
+              ✦ sedikit tentang aku
             </p>
 
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
-              Know Me{' '}
+              kenal aku{' '}
               <span className="text-pink-500 dark:text-pink-400">
-                Better 💗
+                lebih dekat 🌸
               </span>
             </h2>
           </motion.div>
