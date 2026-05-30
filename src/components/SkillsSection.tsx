@@ -151,9 +151,9 @@ export default function SkillsSection() {
           </span>
 
           <h2 className="text-4xl md:text-6xl font-bold mt-3 mb-4 text-gray-900 dark:text-white">
-            pelajaran &{' '}
+            Subjects &{' '}
             <span className="text-pink-400">
-              skill-ku 🌸
+              My Skills 🌸
             </span>
           </h2>
 
