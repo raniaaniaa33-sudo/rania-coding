@@ -135,7 +135,7 @@ export default function HeroSection() {
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  ngobrol aja 💌
+                  call me 💌
                 </Button>
 
               </motion.div>

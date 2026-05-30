@@ -7,7 +7,7 @@ const movies = [
   {
     title: "🧙 Harry Potter",
     description: "dunia sihir yang selalu bikin aku pengen balik lagi ✨",
-    image: "/harry.jpg",
+    image: "/potter.jpg",
     color: "from-indigo-400 via-purple-400 to-pink-400",
   },
   {
@@ -25,7 +25,7 @@ const movies = [
   {
     title: "🕵️ Enola Holmes",
     description: "cerdas, bebas, dan beda dari yang lain — seru banget!",
-    image: "/enola.jpg",
+    image: "/holmes.jpg",
     color: "from-pink-300 via-rose-400 to-red-400",
   },
   {
@@ -37,13 +37,13 @@ const movies = [
   {
     title: "☁️ 500 Days of Summer",
     description: "realistis, ga selalu happy ending tapi meaningful",
-    image: "/summer500.jpg",
+    image: "/500days.jpg",
     color: "from-sky-300 via-blue-400 to-indigo-400",
   },
   {
     title: "🌸 Ada Apa Dengan Cinta",
     description: "film yang sederhana tapi punya rasa yang dalam",
-    image: "/aadc.jpg",
+    image: "/adaapa.jpg",
     color: "from-pink-300 via-rose-300 to-orange-300",
   },
 ];
