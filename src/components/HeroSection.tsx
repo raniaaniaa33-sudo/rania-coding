@@ -6,7 +6,9 @@ import ThreeScene from './ThreeScene';
 export default function HeroSection() {
   const scrollToAbout = () => {
     const el = document.querySelector('#about');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
   };
 
   const fade = (d = 0) => ({
@@ -30,7 +32,8 @@ export default function HeroSection() {
 
         <div className="absolute w-[420px] h-[420px] bg-fuchsia-300/15 blur-[120px] top-[55%] left-[60%] -translate-x-1/2 -translate-y-1/2" />
 
-        <div className="absolute inset-0 bg-white/70 dark:bg-black/50" />
+        {/* 🔥 FIX: biar gak nutup klik */}
+        <div className="absolute inset-0 bg-white/70 dark:bg-black/50 pointer-events-none" />
 
       </div>
 
@@ -165,7 +168,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* scroll */}
+      {/* 🔥 SCROLL BUTTON FIX */}
       <motion.button
         onClick={scrollToAbout}
         className="
@@ -173,11 +176,13 @@ export default function HeroSection() {
           bg-white/70 dark:bg-black/50
           border border-pink-200/60 dark:border-pink-400/20
           backdrop-blur
+          z-20
         "
         whileHover={{ scale: 1.1 }}
       >
         <ArrowDown className="w-5 h-5 text-pink-400 dark:text-pink-300" />
       </motion.button>
+
     </section>
   );
 }
